@@ -1,0 +1,22 @@
+version: '3'
+services:
+  web:
+    restart: always
+    build: .
+    ports:
+      - '5000:5000'
+    depends_on:
+      - postgres
+    command: python3 app.py
+
+  postgres:
+    restart: always
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_USER: 'user'
+      POARGRES_DB: 'zach'
+    ports:
+      - 5432:5432
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d/
